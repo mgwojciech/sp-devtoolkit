@@ -4,9 +4,11 @@ import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button'
 import 'office-ui-fabric-react/dist/sass/_References.scss'
 import { IWebClient } from './Utils/IWebClient';
+import ReactJson from 'react-json-view';
 
 export interface APIClientProps {
-    WebClient: IWebClient
+    WebClient: IWebClient,
+    WebUrl?: string
 }
 export interface APIClientState {
     WebUrl: string,
@@ -23,8 +25,8 @@ export class APIClient extends Component<APIClientProps, APIClientState> {
         super(props);
 
         this.state = {
-            Response: "",
-            WebUrl: "",
+            Response: {},
+            WebUrl: this.props.WebUrl || "",
             EndpointUrl: "/_api/web",
             Method: "GET",
             Digests: []
@@ -34,6 +36,13 @@ export class APIClient extends Component<APIClientProps, APIClientState> {
         this.UpdateEndpointUrl = this.UpdateEndpointUrl.bind(this);
         this.UpdateRequestBody = this.UpdateRequestBody.bind(this);
         this.UpdateMethod = this.UpdateMethod.bind(this);
+    }
+
+    componentWillReceiveProps(newProps: APIClientProps){
+        this.setState({
+            ...this.state,
+            WebUrl: newProps.WebUrl || ""
+        });
     }
 
     private GetFormDigest(): Promise<string> {
@@ -77,7 +86,7 @@ export class APIClient extends Component<APIClientProps, APIClientState> {
                 method: "POST",
                 body: self.state.RequestBody ? JSON.stringify(JSON.parse(self.state.RequestBody)) : null
             }).then(result => {
-                self.setState({ ...self.state, Response: JSON.stringify(result, null, 4) })
+                self.setState({ ...self.state, Response: result })
             });
             })
         }
@@ -87,7 +96,7 @@ export class APIClient extends Component<APIClientProps, APIClientState> {
                 headers: {accept: "application/json"},
                 method: self.state.Method
             }).then(result => {
-                self.setState({ ...self.state, Response: JSON.stringify(result, null, 4) })
+                self.setState({ ...self.state, Response: result })
             });
         }
     }
@@ -129,7 +138,7 @@ export class APIClient extends Component<APIClientProps, APIClientState> {
             />
             <TextField label="Body" multiline autoAdjustHeight onChange={this.UpdateRequestBody} />
             <PrimaryButton text="Send Query" onClick={this.HandleClick} allowDisabledFocus />
-            <TextField label="Response" multiline autoAdjustHeight value={this.state.Response || ""} />
+            <ReactJson src={this.state.Response || {}} />
         </div>
     }
 }

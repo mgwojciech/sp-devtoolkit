@@ -1,0 +1,11 @@
+/_api/web/lists/getByTitle('Dev')
+{ '__metadata': { 'type': 'SP.Data.DevListItem' }, 'Title': 'Test'}
+/_api/web/lists/getByTitle('Dev')/items(1)
+{
+    "odata.id": "634358e5-b59d-4c1c-87bf-3f5d619fee78",
+    "odata.etag": "\"1\"",
+    "Title": "Test Updated",
+}
+
+/sites/dev
+/_api/web/lists/getByTitle('DevList')/items(1)

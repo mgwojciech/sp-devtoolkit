@@ -1,25 +1,17 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+    "version": "1.0",
+    "manifest_version": 2,
+    "name" : "SharePoint Dev Kit",
+    "description": "This extensions allows You to run REST API calls using current user digest",
+
+    "permissions": [
+        "activeTab",
+        "storage"
+    ],
+    //"devtools_page": "dev_index.html",
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "index.html",
+        "default_title": "Call REST API"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
 }
